@@ -1,6 +1,6 @@
 # Dotnet MVC Razor Keycloak
 
-Keycloak configuration (Local Docker)
+## Keycloak configuration (Local Docker)
 
 ![image](https://github.com/user-attachments/assets/aa207a04-6ad3-4708-8fd9-5dadc03273c6)
 
