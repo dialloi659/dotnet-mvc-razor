@@ -10,4 +10,8 @@
 
 ![image](https://github.com/user-attachments/assets/9fc0fec9-2c2f-4af8-b0b1-b24629a3c6f0)
 
+## App configuration
+
+**app.settings.json**
+
 ![image](https://github.com/user-attachments/assets/3e7c33bd-5e75-4bdb-b426-f2febd4b8a3f)
