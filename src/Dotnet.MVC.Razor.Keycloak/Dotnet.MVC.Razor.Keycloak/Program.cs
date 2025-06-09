@@ -1,5 +1,6 @@
 using Dotnet.MVC.Razor.Keycloak.Extensions;
 using Dotnet.MVC.Razor.Keycloak.Logics;
+using Dotnet.MVC.Razor.Keycloak.Persistance.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,8 @@ builder.AddMvcAuthentication();
 // Add services to the container.
 builder.Services
     .AddScoped<IMarkdownRenderer, MarkdownRenderer>()
+    .AddScoped<IFeedbackRepository, FeedbackRepository>()
+    .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
     .ConfigureDbContextAndRepositories(builder.Configuration)
     .AddControllersWithViews();
 
@@ -22,7 +25,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.SeedDatabase();
+//app.SeedDatabase();
 
 app.UseHttpsRedirection();
 app.UseRouting();

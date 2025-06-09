@@ -1,0 +1,74 @@
+﻿@using Dotnet.MVC.Razor.Keycloak.Models.ViewModels
+@using Dotnet.MVC.Razor.Keycloak.Persistance.Entities
+@model FeedbackDashboardViewModel
+
+@{
+    ViewData["Title"] = "Feedback Dashboard";
+
+    var filterModel = new FilterViewModel
+            {
+                ShowCategoryFilter = true,
+                ShowStatusFilter = true,
+                ShowArchivedFilter = true,
+                Categories = Model.Categories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).ToList(),
+                StatusOptions = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "New", Text = "New" },
+            new SelectListItem { Value = "InProgress", Text = "In Progress" },
+            new SelectListItem { Value = "Processed", Text = "Processed" },
+            new SelectListItem { Value = "NotInteresting", Text = "Not Interesting" }
+        }
+            };
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<!-- Archive modals -->
+@await Html.PartialAsync("_ArchiveModals")
+
+<!-- Filters -->
+@await Html.PartialAsync("_TableFilters", filterModel)
+
+<!-- DataTable -->
+<table id="feedbackTable"
+       class="table table-bordered"
+       style="width:100%"
+       data-ajax-url="@Url.Action("FeedbackReports", "Feedback")"
+       data-table-type="feedback">
+    <thead>
+        <tr>
+            <th data-orderable="true">Category</th>
+            <th data-orderable="true">Email</th>
+            <th data-orderable="false">Page</th>
+            <th data-orderable="true">Message</th>
+            <th data-orderable="true">Date</th>
+            <th data-orderable="true">Status</th>
+            <th data-orderable="false">Archived</th>
+            <th data-orderable="false">Action</th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- Include our modular scripts -->
+    <script src="~/js/DataTableManager.js"></script>
+    <script src="~/js/FeedbackTableConfig.js"></script>
+    <script src="~/js/FeedbackActions.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize the DataTable manager
+            window.dataTableManager = new DataTableManager();
+
+            // Initialize the feedback table
+            dataTableManager.init('#feedbackTable', FeedbackTableConfig);
+
+            // Initialize feedback-specific actions
+            FeedbackActions.initializeModalHandlers();
+        });
+    </script>
+}

@@ -1,0 +1,56 @@
+﻿<div id="feedback-sidebar" class="bg-white border-start position-fixed end-0 top-0 vh-100 p-4 shadow" style="width: 400px; z-index: 1040; display: none;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0"><i class="fa fa-comment-alt me-2"></i>Report a Problem</h5>
+        <button id="close-feedback-btn" class="btn-close"></button>
+    </div>
+
+    
+    <!-- Success Message Container -->
+    <div id="feedback-success-message" class="alert alert-success d-none">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <i class="fa fa-check-circle me-2"></i> Thank you! Your feedback has been submitted.
+            </div>
+            <button class="btn btn-sm btn-outline-success" id="close-feedback-success">Close</button>
+        </div>
+    </div>
+
+
+    <form id="feedback-form">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" id="PageUrl" name="PageUrl" value="@Context.Request.Path" />
+        <input type="hidden" id="CurrentPage" name="CurrentPage" />
+        <div class="mb-3 position-relative">
+            <label for="Email" class="form-label">Your Email</label>
+            <input type="email" class="form-control" id="Email" name="Email" value="@User?.Identity?.Name" readonly />
+        </div>
+
+        <div class="mb-3 position-relative">
+            <label for="Category" class="form-label">Category</label>
+            <select class="form-select" id="Category" name="Category" required>
+                <option value="">Select</option>
+                <option>Bug</option>
+                <option>Misunderstanding</option>
+                <option>Feature Not Working</option>
+                <option>Other</option>
+            </select>
+            <div class="invalid-feedback d-none"></div>
+        </div>
+
+        <div class="mb-3 position-relative">
+            <label for="Message" class="form-label">Message</label>
+            <textarea class="form-control" id="Message" name="Message" rows="4" required></textarea>
+            <div class="invalid-feedback d-none"></div>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">
+            <span id="feedback-submit-text"><i class="fa fa-paper-plane me-1"></i> Send Feedback</span>
+            <span id="feedback-spinner" class="spinner-border spinner-border-sm d-none"></span>
+        </button>
+    </form>
+</div>
+
+
+<script src="~/js/feedback.js" asp-append-version="true"></script>
+

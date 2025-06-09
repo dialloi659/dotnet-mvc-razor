@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/markdown/css/github-markdown.min.css" />
-    @* <link rel="stylesheet" href="~/lib/fontawsome/css/all.min.css" /> *@
     <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
 
     <link rel="stylesheet" href="~/lib/toastr/css/toastr.min.css" />
@@ -29,29 +28,20 @@
 
 <body>
     <header>
-        @{
-            var userId = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            ReleaseNoteViewModel? latest;
+        <!-- Floating Feedback Button -->
+        <button id="open-feedback-btn" class="btn btn-primary rounded-circle shadow position-fixed" style="bottom: 30px; right: 30px; z-index: 1050;">
+            <i class="fa fa-comment-dots"></i>
+        </button>
 
-            if (userId != null)
-            {
-                var latestNote = await ReleaseNoteService.GetLatestAsync();
-                if (latestNote != null && !await ReleaseNoteService.HasUserSeenLatestAsync(userId))
-                {
-                    latest = new ReleaseNoteViewModel
-                    {
-                        Id = latestNote.Id,
-                        Version = latestNote.Version,
-                        Title = latestNote.Title,
-                        HtmlContent = MarkdownRenderer.ToHtml(latestNote.ContentMarkdown),
-                        ReleaseDate = latestNote.ReleaseDate
-                    };
 
-                    @await Html.PartialAsync("_ReleaseNoteBanner", latest)
-                }
-            }
-        }
+        <!-- Global Loader -->
+        @*    <div id="page-loader" class="position-fixed w-100 h-100 bg-white d-flex justify-content-center align-items-center" style="z-index: 2000; display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div> *@
 
+        @* --------------------------------------------------------------------------------------------------------------------- *@
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -63,6 +53,28 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        @*    @if (User is not null && (User.IsInRole("Admin") || User.IsInRole("Support")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link d-flex justify-content-between align-items-center" asp-controller="AdminFeedback" asp-action="Index">
+                                    <span><i class="fa fa-comments me-1"></i> Feedback</span>
+                                    @if (ViewBag.NewFeedbackCount > 0)
+                                    {
+                                        <span class="badge bg-danger">@ViewBag.NewFeedbackCount</span>
+                                    }
+                                </a>
+                            </li>
+                        } *@
+
+                        <li class="nav-item">
+                            <a class="nav-link d-flex justify-content-between align-items-center" asp-controller="AdminFeedback" asp-action="Index">
+                                <span><i class="fa fa-comments me-1"></i> Feedback</span>
+                                @if (ViewBag.NewFeedbackCount > 0)
+                                {
+                                    <span class="badge bg-danger">@ViewBag.NewFeedbackCount</span>
+                                }
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -88,7 +100,30 @@
     <div class="container">
         <main role="main" class="pb-3">
             @await Html.PartialAsync("_ToastNotifications")
+            @{
+                var userId = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                ReleaseNoteViewModel? latest;
+
+                if (userId != null)
+                {
+                    var latestNote = await ReleaseNoteService.GetLatestAsync();
+                    if (latestNote != null && !await ReleaseNoteService.HasUserSeenLatestAsync(userId))
+                    {
+                        latest = new ReleaseNoteViewModel
+                    {
+                        Id = latestNote.Id,
+                        Version = latestNote.Version,
+                        Title = latestNote.Title,
+                        HtmlContent = MarkdownRenderer.ToHtml(latestNote.ContentMarkdown),
+                        ReleaseDate = latestNote.ReleaseDate
+                    };
+
+                        @await Html.PartialAsync("_ReleaseNoteBanner", latest)
+                    }
+                }
+            }
             @RenderBody()
+            @await Html.PartialAsync("_FeedbackSidebar")
         </main>
     </div>
     <footer class="border-top footer text-muted">
@@ -100,6 +135,23 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/toastr/js/toastr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        $(document).on('submit', 'form', function () {
+            $('#page-loader').show();
+        });
+
+        $(document).on('click', 'a', function (e) {
+            const href = $(this).attr('href');
+            if (href && href !== "#" && !href.startsWith("javascript") && !$(this).attr("target")) {
+                $('#page-loader').show();
+            }
+        });
+
+        $(window).on('load', function () {
+            $('#page-loader').fadeOut();
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,77 @@
+﻿@using Dotnet.MVC.Razor.Keycloak.Models.ViewModels
+@* Reusable filter partial *@
+@model FilterViewModel
+
+<div class="row mb-3">
+    @if (Model.ShowCategoryFilter && Model.Categories != null)
+    {
+        <div class="col-md-3">
+            <label for="@Model.CategoryFilterId">Category</label>
+            <select id="@Model.CategoryFilterId" class="form-select">
+                <option value="">All Categories</option>
+                @foreach (var category in Model.Categories)
+                {
+                    <option value="@category.Value">@category.Text</option>
+                }
+            </select>
+        </div>
+    }
+
+    @if (Model.ShowStatusFilter)
+    {
+        <div class="col-md-3">
+            <label for="@Model.StatusFilterId">Status</label>
+            <select id="@Model.StatusFilterId" class="form-select">
+                <option value="">All Statuses</option>
+                @foreach (var status in Model.StatusOptions)
+                {
+                    <option value="@status.Value">@status.Text</option>
+                }
+            </select>
+        </div>
+    }
+
+    @if (Model.ShowArchivedFilter)
+    {
+        <div class="col-md-3">
+            <label for="@Model.ArchivedFilterId">Archived</label>
+            <select id="@Model.ArchivedFilterId" class="form-select form-select-sm">
+                <option value="">All</option>
+                <option value="false">Active</option>
+                <option value="true">Archived</option>
+            </select>
+        </div>
+    }
+
+    @if (Model.ShowDateFilter)
+    {
+        <div class="col-md-3">
+            <label for="@Model.DateFilterId">Date Range</label>
+            <input type="date" id="@Model.DateFilterId" class="form-control" />
+        </div>
+    }
+
+    @if (Model.CustomFilters != null)
+    {
+        @foreach (var filter in Model.CustomFilters)
+        {
+            <div class="col-md-3">
+                <label for="@filter.Id">@filter.Label</label>
+                @if (filter.Type == "select")
+                {
+                    <select id="@filter.Id" class="form-select">
+                        <option value="">@filter.DefaultText</option>
+                        @foreach (var option in filter.Options)
+                        {
+                            <option value="@option.Value">@option.Text</option>
+                        }
+                    </select>
+                }
+                else if (filter.Type == "input")
+                {
+                    <input type="@filter.InputType" id="@filter.Id" class="form-control" placeholder="@filter.Placeholder" />
+                }
+            </div>
+        }
+    }
+</div>

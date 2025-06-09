@@ -1,5 +1,6 @@
 ﻿using Dotnet.MVC.Razor.Keycloak.Data;
 using Dotnet.MVC.Razor.Keycloak.Logics;
+using Dotnet.MVC.Razor.Keycloak.Persistance;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dotnet.MVC.Razor.Keycloak.Extensions;

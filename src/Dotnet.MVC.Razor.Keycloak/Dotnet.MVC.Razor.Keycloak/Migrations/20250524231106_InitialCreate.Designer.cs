@@ -3,6 +3,7 @@ using System;
 using Dotnet.MVC.Razor.Keycloak.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Dotnet.MVC.Razor.Keycloak.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250524231106_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,32 +79,6 @@ namespace Dotnet.MVC.Razor.Keycloak.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FeedbackCategories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -1,
-                            CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "New"
-                        },
-                        new
-                        {
-                            Id = -2,
-                            CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "InProgress"
-                        },
-                        new
-                        {
-                            Id = -3,
-                            CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Processed"
-                        },
-                        new
-                        {
-                            Id = -4,
-                            CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "NotInteresting"
-                        });
                 });
 
             modelBuilder.Entity("Dotnet.MVC.Razor.Keycloak.Persistance.Entities.FeedbackReport", b =>
@@ -125,8 +102,7 @@ namespace Dotnet.MVC.Razor.Keycloak.Migrations
                         .HasColumnType("text");
 
                     b.Property<bool>("IsArchived")
-                        .HasColumnType("boolean")
-                        .HasColumnName("IsArchived");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Message")
                         .IsRequired()
