@@ -1,0 +1,20 @@
+﻿@using Dotnet.MVC.Razor.Keycloak.Models.ViewModels
+
+@model ReleaseNoteViewModel?
+
+@if (Model != null)
+{
+    <div id="release-banner" class="alert alert-info alert-dismissible fade show mb-0 rounded-0 d-flex justify-content-between align-items-center px-4" role="alert">
+        <div>
+            <strong>New Update:</strong> @Model.Title (@Model.Version) – <a href="@Url.Action("Index", "ReleaseNotes")" class="alert-link">See what’s new</a>
+        </div>
+        <button type="button" class="btn-close" aria-label="Close" onclick="markReleaseSeen(@(Model.Id))"></button>
+    </div>
+
+    <script>
+        function markReleaseSeen(releaseId) {
+            fetch('/ReleaseNotes/Seen/' + releaseId, { method: 'POST' })
+                .then(() => document.getElementById('release-banner')?.remove());
+        }
+    </script>
+}

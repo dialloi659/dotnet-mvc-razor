@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Dotnet.MVC.Razor.Keycloak.Logics
+@using Dotnet.MVC.Razor.Keycloak.Models.ViewModels
+
+@inject IReleaseNoteRepository ReleaseNoteService
+@inject IMarkdownRenderer MarkdownRenderer
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,10 +13,46 @@
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Dotnet.MVC.Razor.Keycloak.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/markdown/css/github-markdown.min.css" />
+    @* <link rel="stylesheet" href="~/lib/fontawsome/css/all.min.css" /> *@
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
+
+    <link rel="stylesheet" href="~/lib/toastr/css/toastr.min.css" />
+
+    <style>
+        .markdown-body {
+            font-family: system-ui;
+        }
+    </style>
+
 </head>
+
 <body>
     <header>
+        @{
+            var userId = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            ReleaseNoteViewModel? latest;
+
+            if (userId != null)
+            {
+                var latestNote = await ReleaseNoteService.GetLatestAsync();
+                if (latestNote != null && !await ReleaseNoteService.HasUserSeenLatestAsync(userId))
+                {
+                    latest = new ReleaseNoteViewModel
+                    {
+                        Id = latestNote.Id,
+                        Version = latestNote.Version,
+                        Title = latestNote.Title,
+                        HtmlContent = MarkdownRenderer.ToHtml(latestNote.ContentMarkdown),
+                        ReleaseDate = latestNote.ReleaseDate
+                    };
+
+                    @await Html.PartialAsync("_ReleaseNoteBanner", latest)
+                }
+            }
+        }
+
+
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MVC Razor Keycloak</a>
@@ -27,6 +69,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ReleaseNotes" asp-action="Index">Versions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="AdminReleaseNotes" asp-action="Index">Release Admin</a>
+                        </li>
                     </ul>
                     <div>
                         <form asp-controller="Auth" asp-action="Logout" method="post">
@@ -39,6 +87,7 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @await Html.PartialAsync("_ToastNotifications")
             @RenderBody()
         </main>
     </div>
@@ -49,6 +98,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/toastr/js/toastr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

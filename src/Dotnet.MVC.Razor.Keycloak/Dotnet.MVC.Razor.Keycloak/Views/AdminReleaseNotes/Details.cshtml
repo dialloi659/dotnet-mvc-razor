@@ -1,0 +1,32 @@
+﻿@using Dotnet.MVC.Razor.Keycloak.Data.Entities
+@model ReleaseNote
+
+@{
+    ViewBag.Title = $"Release Note {Model.Version}";
+}
+
+<h2>@Model.Title</h2>
+
+<div class="mb-3">
+    <strong>Version:</strong> @Model.Version
+</div>
+
+<div class="mb-3">
+    <strong>Release Date:</strong> @Model.ReleaseDate.ToString("yyyy-MM-dd")
+</div>
+
+<div class="mb-3">
+    <article id="markdown-content" class="border rounded p-3 bg-light"></article>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">
+    <i class="fa fa-arrow-left"></i> Back to List
+</a>
+
+@section Scripts {
+    <!-- Markdown renderer like Marked.js -->
+    <script src="~/lib/marked/marked.min.js"></script>
+    <script>
+        document.getElementById('markdown-content').innerHTML = marked.parse(@Html.Raw(Json.Serialize(Model.ContentMarkdown)));
+    </script>
+}

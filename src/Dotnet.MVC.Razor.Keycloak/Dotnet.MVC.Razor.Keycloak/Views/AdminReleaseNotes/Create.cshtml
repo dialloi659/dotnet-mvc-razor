@@ -1,0 +1,11 @@
+﻿@using Dotnet.MVC.Razor.Keycloak.Data.Entities
+
+@model ReleaseNote
+
+@{
+    ViewBag.Title = "Create Release Note";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@await Html.PartialAsync("_ReleaseNoteForm", Model)

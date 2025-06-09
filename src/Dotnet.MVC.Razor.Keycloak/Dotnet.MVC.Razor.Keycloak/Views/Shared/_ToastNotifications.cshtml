@@ -1,0 +1,50 @@
+﻿@{
+    var success = TempData["Success"]?.ToString();
+    var error = TempData["Error"]?.ToString();
+    var info = TempData["Info"]?.ToString();
+    var warning = TempData["Warning"]?.ToString();
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/toastr/js/toastr.min.js"></script>
+<script>
+    toastrOptions = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+</script>
+
+<script>
+    $(function () {
+    @if (!string.IsNullOrEmpty(success))
+    {
+        <text>toastr.success("@success");</text>
+    }
+    @if (!string.IsNullOrEmpty(error))
+    {
+        <text>toastr.error("@error");</text>
+    }
+    @if (!string.IsNullOrEmpty(info))
+    {
+        <text>toastr.info("@info");</text>
+    }
+    @if (!string.IsNullOrEmpty(warning))
+    {
+        <text>toastr.warning("@warning");</text>
+    }
+    });
+</script>

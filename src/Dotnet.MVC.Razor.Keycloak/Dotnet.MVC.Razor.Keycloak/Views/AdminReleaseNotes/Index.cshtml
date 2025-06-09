@@ -1,0 +1,39 @@
+﻿@using Dotnet.MVC.Razor.Keycloak.Data.Entities
+
+@model IEnumerable<ReleaseNote>
+
+@{
+    ViewBag.Title = "Release Notes Admin";
+}
+
+<h2>Release Notes</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">
+    <i class="fa fa-plus"></i> Add New Note
+</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Version</th>
+            <th>Title</th>
+            <th>Released</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var note in Model)
+        {
+            <tr>
+                <td>@note.Version</td>
+                <td>@note.Title</td>
+                <td>@note.ReleaseDate.ToShortDateString()</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@note.Id" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> Details</a>
+                    <a asp-action="Edit" asp-route-id="@note.Id" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> Edit</a>
+                    <a asp-action="Delete" asp-route-id="@note.Id" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

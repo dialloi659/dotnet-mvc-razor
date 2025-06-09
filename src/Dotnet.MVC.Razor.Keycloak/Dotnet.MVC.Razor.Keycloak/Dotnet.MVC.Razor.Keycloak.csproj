@@ -9,13 +9,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.41.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Auth\" />
+    <ProjectReference Include="..\Dotnet.MVC.Razor.Keycloak.ServiceDefaults\Dotnet.MVC.Razor.Keycloak.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\markdown\js\" />
   </ItemGroup>
 
 </Project>

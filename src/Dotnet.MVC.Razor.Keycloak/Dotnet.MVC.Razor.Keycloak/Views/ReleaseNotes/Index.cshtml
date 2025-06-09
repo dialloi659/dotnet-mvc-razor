@@ -1,0 +1,64 @@
+﻿@using Dotnet.MVC.Razor.Keycloak.Models.ViewModels
+
+@model IEnumerable<ReleaseNoteViewModel>
+
+@{
+    ViewBag.Title = "Release Notes";
+}
+
+<h2>Release Notes</h2>
+
+@foreach (var note in Model)
+{
+    var collapseId = $"noteBody-{note.Id}";
+    var chevronId = $"chevron-{note.Id}";
+
+    <div class="card mb-3 border-0 shadow-sm">
+        <!-- Header -->
+        <div class="card-header d-flex justify-content-between align-items-center"
+             data-bs-toggle="collapse" data-bs-target="@collapseId"
+             aria-expanded="true" aria-controls="@collapseId"
+             style="cursor: pointer; background-color: #e9ecef; color: #343a40;">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-code-branch me-2 text-secondary"></i>
+                <strong>@note.Version</strong> - @note.Title
+            </div>
+            <div class="d-flex align-items-center">
+                <i class="fas fa-calendar-alt me-1 text-muted"></i>
+                <small>@note.ReleaseDate.ToShortDateString()</small>
+                <i id="@chevronId" class="fas fa-chevron-down ms-3 text-muted toggle-icon"></i>
+            </div>
+        </div>
+
+        <!-- Collapsible Body -->
+        <div id="@collapseId" class="collapse show">
+            <div class="card-body bg-white">
+                <div class="mb-3">
+                    <article class="border rounded p-3 bg-light">
+                        @Html.Raw(note.HtmlContent)
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.collapse').forEach(function (collapseEl) {
+            const header = collapseEl.previousElementSibling;
+            const chevron = header.querySelector('.toggle-icon');
+
+            collapseEl.addEventListener('show.bs.collapse', function () {
+                chevron.classList.add('rotate-up');
+            });
+
+            collapseEl.addEventListener('hide.bs.collapse', function () {
+                chevron.classList.remove('rotate-up');
+            });
+        });
+    });
+</script>
+
+
+

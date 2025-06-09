@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+    var returnUrl = Context.Request.Query["ReturnUrl"].ToString();
+    if (string.IsNullOrEmpty(returnUrl))
+    {
+        returnUrl = Url.Content("~/");
+    }
+}
+
+<div class="container pt-5">
+    <div class="card shadow-lg border-0 text-center p-5 mx-auto" style="max-width: 600px; animation: fadeIn 0.6s;">
+        <div class="card-body">
+            <i class="fas fa-user-shield fa-4x text-danger mb-4"></i>
+            <h1 class="display-5 fw-bold text-danger">Access Denied</h1>
+            <p class="lead mt-3">
+                You do not have permission to access this page.<br />
+                If you believe this is an error, please contact the administrator.
+            </p>
+
+            <div class="d-flex justify-content-center flex-wrap gap-3 mt-4">
+                <a href="@returnUrl" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-arrow-left me-2"></i> Go Back
+                </a>
+
+                <a href="@Url.Content("~/")" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-home me-2"></i> Home
+                </a>
+
+                <a href="@Url.Action("Logout", "Auth")" class="btn btn-danger btn-lg">
+                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

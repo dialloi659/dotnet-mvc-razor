@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197
+VisualStudioVersion = 17.13.35931.197 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.MVC.Razor.Keycloak", "Dotnet.MVC.Razor.Keycloak\Dotnet.MVC.Razor.Keycloak.csproj", "{317A3035-9D68-320C-BF36-3DE3B8C008BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.MVC.Razor.Keycloak.AppHost", "Dotnet.MVC.Razor.Keycloak.AppHost\Dotnet.MVC.Razor.Keycloak.AppHost.csproj", "{DDCC8922-9D0C-4152-968F-E6B1F78B1102}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.MVC.Razor.Keycloak.ServiceDefaults", "Dotnet.MVC.Razor.Keycloak.ServiceDefaults\Dotnet.MVC.Razor.Keycloak.ServiceDefaults.csproj", "{8D6AAF1F-4972-6128-DA60-2C6F599D8D9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{317A3035-9D68-320C-BF36-3DE3B8C008BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{317A3035-9D68-320C-BF36-3DE3B8C008BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{317A3035-9D68-320C-BF36-3DE3B8C008BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDCC8922-9D0C-4152-968F-E6B1F78B1102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDCC8922-9D0C-4152-968F-E6B1F78B1102}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDCC8922-9D0C-4152-968F-E6B1F78B1102}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDCC8922-9D0C-4152-968F-E6B1F78B1102}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D6AAF1F-4972-6128-DA60-2C6F599D8D9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D6AAF1F-4972-6128-DA60-2C6F599D8D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D6AAF1F-4972-6128-DA60-2C6F599D8D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D6AAF1F-4972-6128-DA60-2C6F599D8D9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

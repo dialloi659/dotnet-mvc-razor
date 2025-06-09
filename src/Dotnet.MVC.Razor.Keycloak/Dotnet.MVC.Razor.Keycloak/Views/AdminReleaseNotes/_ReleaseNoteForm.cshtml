@@ -1,0 +1,57 @@
+﻿@using Dotnet.MVC.Razor.Keycloak.Data.Entities
+
+@model ReleaseNote
+
+<form asp-action="@ViewContext.RouteData.Values["action"]" method="post">
+    @if (Model.Id != 0)
+    {
+        <input type="hidden" asp-for="Id" />
+    }
+
+    <div class="mb-3">
+        <label asp-for="Version" class="form-label"></label>
+        <input asp-for="Version" class="form-control" />
+        <span asp-validation-for="Version" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ContentMarkdown" class="form-label">Content (Markdown)</label>
+        <textarea asp-for="ContentMarkdown" class="form-control" id="markdown-editor"></textarea>
+        <span asp-validation-for="ContentMarkdown" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        <i class="fa fa-save"></i> Save
+    </button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+<link rel="stylesheet" href="~/lib/easymde/dist/easymde.min.css" />
+<script src="~/lib/easymde/dist/easymde.min.js"></script>
+<script>
+    const easymde = new EasyMDE({
+        element: document.getElementById("markdown-editor"),
+        spellChecker: false,
+        autosave: {
+            enabled: false
+        },
+        renderingConfig: {
+            singleLineBreaks: false,
+            codeSyntaxHighlighting: true
+        },
+        toolbar: [
+            "bold", "italic", "heading", "|",
+            "quote", "unordered-list", "ordered-list", "|", "link", "image", "table", "|",
+            "preview", "side-by-side", "fullscreen", "|",
+            "guide"
+        ],
+        sideBySideFullscreen: false,
+        minHeight: "300px"
+    });
+</script>
